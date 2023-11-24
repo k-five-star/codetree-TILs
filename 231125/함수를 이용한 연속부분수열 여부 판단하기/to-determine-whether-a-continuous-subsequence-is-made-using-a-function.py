@@ -20,4 +20,4 @@ tuple(map(int, input().split()))
 seq1 = list(map(int, input().split()))
 seq2 = list(map(int, input().split()))
 
-print("Yes" if check(seq1, seq2) else "False")
+print("Yes" if check(seq1, seq2) else "No")
