@@ -9,12 +9,12 @@ int main() {
     scanf("%d %d", &M, &D);
 
     if(check_month(M)) 
-        if (D >= 1 && D <= return_last_date(M))
+        if (D >= 1 && D <= return_last_date(M)) {
             printf("Yes");
             return 0;
-
+        }
+        
     printf("No");
-
     return 0;
 }
 
