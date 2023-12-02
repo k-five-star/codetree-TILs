@@ -13,18 +13,28 @@ int main() {
 }
 
 int isSub() {
-    int sub_idx = 0;
-    int i;
-    for(i = 0; i < strlen(s); i++) {
-        if(s[i] == sub[sub_idx])
-            sub_idx ++;
-        
-        else
-            sub_idx = 0;
+    int i = 0, j = 0;
 
-        if(sub_idx == strlen(sub))
-            return i - sub_idx + 1;
+    while(i < strlen(s) && j < strlen(sub)) {
+        if(s[i] == sub[j]) {
+            i++;
+            j++;
+        }
+
+        else {
+            if(j != 0) {
+                j = 0;
+            }
+            else {
+                i++;
+                j = 0;
+            }
+        }
     }
 
-    return -1;
+    if(j == strlen(sub)) 
+        return i - j;
+
+    else
+        return -1;
 }
