@@ -23,13 +23,13 @@ int main() {
         if(t1 >= t2 || mid - small <= 1) { //small과 mid 틈이 더 크니, big과 mid사이에 small이 들어간다. 새로운 것은 그러면 mid 중간 big
             avg = big + mid;
             small = mid;
-            mid = avg / 2;
+            mid = mid + 1;
         }
 
         else if(t1 >= t2 || big - mid <= 1) { // 그 반대. 새로운 것은 small 중간 mid
             avg = small + mid;
             big = mid;
-            mid = avg / 2;
+            mid = mid -  2;
         }
     }
     
