@@ -46,15 +46,15 @@ int main() {
         t2 = big - mid;
 
         if(t1 >= t2 || big - mid <= 1) { //small과 mid 틈이 더 크니, 과 mid를 교체
-            avg = small + mid;
+           // avg = small + mid;
             big = mid;
-            mid = avg / 2;
+            mid = mid - 1;
         }
 
         else if(t1 >= t2 || mid - small <= 1){
-            avg = big + mid;
+          //  avg = big + mid;
             small = mid;
-            mid = avg / 2;
+            mid = mid + 1;
         }
 
 
