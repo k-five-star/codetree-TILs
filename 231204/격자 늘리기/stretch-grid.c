@@ -14,7 +14,7 @@ int main() {
     
     for(i = 0; i < k*n; i++) {
         for(j = 0; j < k*m; j++) {
-            printf("%c", a[i / 2][j / 2]);
+            printf("%c", a[i / k][j / k]);
         }
         printf("\n");
     }
