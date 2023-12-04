@@ -6,7 +6,7 @@ class Student:
         self.s3 = int(s3)
 
     def getSum(self):
-        return self.s1 + self.s2, self.s3
+        return self.s1 + self.s2 + self.s3
 
     def print_student(self):
         print(f"{self.name} {self.s1} {self.s2} {self.s3}")
