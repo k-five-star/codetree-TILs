@@ -15,7 +15,7 @@ int main() {
 
     elapsed_min = delta_day * MINPERDAY + delta_hour * MINPERHOUR + delta_min * MINPERMIN;
 
-    printf("%d", elapsed_min);
+    printf("%d", elapsed_min>=0?elapsed_min:-1);
 
     return 0;
 }
