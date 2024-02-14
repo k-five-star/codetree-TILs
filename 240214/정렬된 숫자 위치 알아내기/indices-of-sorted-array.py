@@ -1,0 +1,7 @@
+n = int(input())
+a = list(map(int, input().split()))
+tag_a = list(zip(a, list(range(1, n + 1))))
+tag_a.sort(key = lambda x:x[0])
+tag_b = list(zip([x[1] for x in tag_a], list(range(1, n + 1))))
+tag_b.sort(key = lambda x:x[0])
+print(*[x[1] for x in tag_b])
