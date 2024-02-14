@@ -13,6 +13,10 @@ m1, d1, m2, d2 = map(int, input().split())
 delta = 0
 
 delta += (d2 - d1)
-delta += sum(lastDayOfMonth[m1:m2])
+if m1 < m2:
+    delta += sum(lastDayOfMonth[m1:m2])
+elif m1 > m2:
+    delta -= sum(lastDayOfMonth[m2:m1])
+
 day = dayOfWeek.get(delta % 7)
 print(day)
