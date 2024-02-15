@@ -15,6 +15,11 @@ int main() {
 
     scanf("%d", &dec);
 
+    if(dec == 0) {
+        bin[idx] = '0';
+        idx++;
+    }
+
     while(dec > 0) {
         bin[idx] = itoa(dec % 2);
         idx++;
