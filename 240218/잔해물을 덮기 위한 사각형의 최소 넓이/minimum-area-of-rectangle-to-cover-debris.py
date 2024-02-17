@@ -24,6 +24,9 @@ class paper:
                 if arr[i][j] == 1 and flag == 0:
                     cx1, cy1 = i, j
                     flag = 1
+        
+        if flag == 0:
+            return 0
 
         flag = 0
 
@@ -32,6 +35,9 @@ class paper:
                 if arr[i][j] == 1 and flag == 0:
                     cx2, cy2 = i, j
                     flag = 1
+
+        if flag == 0:
+            return 0
 
         large = (cx2 - cx1 + 1) * (cy2 - cy1 + 1)
         return large
