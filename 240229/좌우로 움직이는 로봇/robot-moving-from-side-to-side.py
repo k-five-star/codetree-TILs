@@ -2,11 +2,12 @@
 MAX = 50000
 n, m = map(int, input().split())
 
-A_sec_and_loc = [0] * (MAX + 1)
-B_sec_and_loc = [0] * (MAX + 1)
+A_sec_and_loc = [0]
+B_sec_and_loc = [0]
 A_cur_sec = B_cur_sec = 0
-dist = [0] * (MAX + 1)
+dist = [0]
 ans = 0
+
 # A로봇의 움직임 기록
 for _ in range(n):
     sec, cmd = input().split()
@@ -14,8 +15,8 @@ for _ in range(n):
 
     for _ in range(int(sec)):
         A_cur_sec += 1
-        A_sec_and_loc[A_cur_sec] = A_sec_and_loc[A_cur_sec - 1] + direction
-# print(A_sec_and_loc[0 : A_cur_sec + 1])
+        A_sec_and_loc.append(A_sec_and_loc[A_cur_sec - 1] + direction)
+
 # B로봇의 움직임 기록
 for _ in range(m):
     sec, cmd = input().split()
@@ -23,21 +24,38 @@ for _ in range(m):
 
     for _ in range(int(sec)):
         B_cur_sec += 1
-        B_sec_and_loc[B_cur_sec] = B_sec_and_loc[B_cur_sec - 1] + direction
-# print(B_sec_and_loc[0 : B_cur_sec + 1])
-# 나머지 시간 채워야 한다. 
-if A_cur_sec > B_cur_sec:
-    for i in range(B_cur_sec + 1, A_cur_sec + 1):
-        B_sec_and_loc[i] = B_sec_and_loc[B_cur_sec]
-else:
-    for i in range(A_cur_sec + 1, B_cur_sec + 1):
-        A_sec_and_loc[i] = A_sec_and_loc[A_cur_sec]
-# 이 둘 사이의 거리 기록
-for i in range(0, max(A_cur_sec, B_cur_sec)):
-    dist[i] = B_sec_and_loc[i] - A_sec_and_loc[i]
-# 거리가 0이 아니다가 0이 되는 순간들을 기록
-for i in range(1, max(A_cur_sec, B_cur_sec) + 1):
-    if dist[i] == 0 and dist[i - 1] != 0:
-        ans += 1
+        B_sec_and_loc.append(B_sec_and_loc[B_cur_sec - 1] + direction)
+
+# pop한다.
+A_past = A_sec_and_loc.pop(0)
+B_past = B_sec_and_loc.pop(0)
+A_now = B_now = 0
+# 두 배열 중 하나가 없어질 때까지 반복
+while len(A_sec_and_loc) and len(B_sec_and_loc):
+    # pop
+    A_now, B_now = A_sec_and_loc.pop(0), B_sec_and_loc.pop(0)
+    # 둘의 거리 차이가 0인가? 이전에는 0이 아니었는가
+    if A_now == B_now and A_past != B_past:
+        # ans += 1을 한다.
+        ans += 1        
+    # 업데이트 한다.
+    A_past, B_past = A_now, B_now
+
+# A가 좀 남았다면
+while len(A_sec_and_loc):
+    A_now = A_sec_and_loc.pop(0)
+
+    if A_now == B_now and A_past != B_past:
+        ans+=1
+
+    A_past = A_now
+# B가 좀 남았다면
+while len(B_sec_and_loc):
+    B_now = B_sec_and_loc.pop(0)
+
+    if A_now == B_now and A_past != B_past:
+        ans+=1
+
+    B_past = B_now
 
 print(ans)
