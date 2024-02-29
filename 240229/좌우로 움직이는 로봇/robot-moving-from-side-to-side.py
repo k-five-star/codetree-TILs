@@ -1,5 +1,4 @@
 # 입력을 받는다.
-MAX = 50000
 n, m = map(int, input().split())
 
 A_sec_and_loc = [0]
@@ -11,20 +10,32 @@ ans = 0
 # A로봇의 움직임 기록
 for _ in range(n):
     sec, cmd = input().split()
-    direction = 1 if cmd == 'R' else -1
+    start = end = 0
 
-    for _ in range(int(sec)):
-        A_cur_sec += 1
-        A_sec_and_loc.append(A_sec_and_loc[A_cur_sec - 1] + direction)
+    if cmd == 'R':
+        start = A_sec_and_loc[-1] + 1
+        end = start + int(sec)
+        A_sec_and_loc += list(range(start, end))
+    else:
+        start = A_sec_and_loc[-1] - 1
+        end = start - int(sec)
+        A_sec_and_loc += list(range(start, end, -1))
+
 
 # B로봇의 움직임 기록
 for _ in range(m):
     sec, cmd = input().split()
-    direction = 1 if cmd == 'R' else -1
+    start = end = 0
 
-    for _ in range(int(sec)):
-        B_cur_sec += 1
-        B_sec_and_loc.append(B_sec_and_loc[B_cur_sec - 1] + direction)
+    if cmd == 'R':
+        start = B_sec_and_loc[-1] + 1
+        end = start + int(sec)
+        B_sec_and_loc += list(range(start, end))
+    else:
+        start = B_sec_and_loc[-1] - 1
+        end = start - int(sec)
+        B_sec_and_loc += list(range(start, end, -1))
+
 
 # pop한다.
 A_past = A_sec_and_loc.pop(0)
