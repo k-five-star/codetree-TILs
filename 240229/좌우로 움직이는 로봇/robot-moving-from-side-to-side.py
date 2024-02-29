@@ -1,35 +1,34 @@
-def make_route(move):
-    route = [0]
-    for t, d in move:
-        for i in range(int(t)):
-            if d == 'L':
-                next_pos = route[-1] - 1
-            else:
-                next_pos = route[-1] + 1
-            route.append(next_pos)
-    
-    return route
+# 횟수를 입력받는다.
+n, m = map(int, input().split())
 
+# 입력받는다.
+def gen_pos(cmd_arr):
+    sec_pos = [0]
 
-N, M = map(int, input().split())
+    for sec, cmd in cmd_arr:
+        if cmd == 'R':
+            sec_pos += list(range(sec_pos[-1] + 1, sec_pos[-1] + int(sec) + 1))
+        else:
+            sec_pos += list(range(sec_pos[-1] - 1, sec_pos[-1] - int(sec) - 1, -1))
 
-move_a = [tuple(input().split()) for _ in range(N)]
-move_b = [tuple(input().split()) for _ in range(M)]
+    return sec_pos
 
-route_a = make_route(move_a)
-route_b = make_route(move_b)
+A_pos = gen_pos([input().split() for _ in range(n)])
+B_pos = gen_pos([input().split() for _ in range(m)])
 
-before_a, before_b, cnt = 0, 0, 0
-for i in range(1, max((len(route_a), len(route_b)))):
-    if i < len(route_a) and i < len(route_b):
-        now_a, now_b = route_a[i], route_b[i]
-    elif i >= len(route_a):
-        now_a, now_b = route_a[-1], route_b[i]
-    elif i >= len(route_b):
-        now_a, now_b = route_a[i], route_b[-1]
+ans = 0
+# 1초부터 끝날때까지 실행
+for i in range(1, max(len(A_pos), len(B_pos))):
+    if i < len(A_pos) and i < len(B_pos):
+        if A_pos[i] == B_pos[i] and A_pos[i - 1] != B_pos[i - 1]:
+            ans += 1
 
-    if before_a != before_b and now_a == now_b:
-        cnt += 1
-    before_a, before_b = now_a, now_b
+    elif len(A_pos) <= i < len(B_pos):
+        ans += B_pos[i:len(B_pos)].count(A_pos[-1])
+        break
 
-print(cnt)
+    elif len(B_pos) <= i < len(A_pos):
+        ans += A_pos[i:len(A_pos)].count(B_pos[-1])
+        break
+
+print(ans)
