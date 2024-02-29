@@ -1,56 +1,49 @@
-# 사각형이란 클래스
-class square:
-    # 초기화 : x1 y1 x2 y2
-    def __init__(self, x1, y1, x2, y2):
-        self.x1 = x1 + 1000
-        self.y1 = y1 + 1000
-        self.x2 = x2 + 1000 - 1
-        self.y2 = y2 + 1000 - 1
-    # 채우기 : 2차원 배열에 사각형을 채운다
-    def fill(self, field):
-        for x in range(self.x1, self.x2 + 1):
-            for y in range(self.y1, self.y2 + 1):
-                field[x][y] = 1
-    # 지우기 : 2차원 배열에 사각형을 지운다
-    def erase(self, field):
-        for x in range(self.x1, self.x2 + 1):
-            for y in range(self.y1, self.y2 + 1):
-                field[x][y] = 0
-    # 너비 출력 : 남아있는 애들을 다 채우기 위한 너비 확인
-    def check_width(self, field):
-        length = 0
-        height = 0
+OFFSET = 1000
+MAX_R = 2000
 
-        for x in range(self.x1, self.x2 + 1):
-            flag = 0
+# 변수 선언 및 입력
+n = 2
+rects = [
+    tuple(map(int, input().split()))
+    for _ in range(n)
+]
 
-            for y in range(self.y1, self.y2 + 1):
-                if field[x][y] == 1:
-                    flag = 1
-                    break
+checked = [
+    [0] * (MAX_R + 1)
+    for _ in range(MAX_R + 1)
+]
 
-            if flag == 1:
-                length+=1
+for i, (x1, y1, x2, y2) in enumerate(rects, start=1):
+    # OFFSET을 더해줍니다.
+    x1, y1 = x1 + OFFSET, y1 + OFFSET
+    x2, y2 = x2 + OFFSET, y2 + OFFSET
+    
+    # 직사각형에 주어진 순으로 1, 2 번호를 붙여줍니다.
+    # 격자 단위로 진행하는 문제이므로
+    # x2, y2에 등호가 들어가지 않음에 유의합니다.
+    for x in range(x1, x2):
+        for y in range(y1, y2):
+            checked[x][y] = i
 
-        for y in range(self.y1, self.y2 + 1):
-            flag = 0
+# 1, 2 순으로 붙였는데도
+# 아직 숫자 1로 남아있는 곳들 중 최대 최소 x, y 값을 전부 계산합니다.
+min_x, max_x, min_y, max_y = MAX_R, 0, MAX_R, 0
+first_rect_exist = False
+for x in range(MAX_R + 1):
+    for y in range(MAX_R + 1):
+        if checked[x][y] == 1:
+            first_rect_exist = True
+            min_x = min(min_x, x)
+            max_x = max(max_x, x)
+            min_y = min(min_y, y)
+            max_y = max(max_y, y)
 
-            for x in range(self.x1, self.x2 + 1):
-                if field[x][y] == 1:
-                    flag = 1
-                    break
+# 넓이를 계산합니다.
+# Case 1. 첫 번째 직사각형이 전혀 남아있지 않다면 넓이는 0입니다.
+if not first_rect_exist:
+    area = 0
+# Case 2. 첫 번째 직사각형이 남아있다면, 넓이를 계산합니다.
+else:
+    area = (max_x - min_x + 1) * (max_y - min_y + 1)
 
-            if flag == 1:
-                height+=1
-
-        return height * length
-
-x1, y1, x2, y2 = map(int, input().split())
-s1 =  square(x1, y1, x2 ,y2)
-x1, y1, x2, y2 = map(int, input().split())
-s2 =  square(x1, y1, x2 ,y2)
-field = [[0 for _ in range(2001)] for _ in range(2001)]
-
-s1.fill(field)
-s2.erase(field)
-print(s1.check_width(field))
+print(area)
