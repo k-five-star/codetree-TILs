@@ -42,20 +42,7 @@ while len(A_sec_and_loc) and len(B_sec_and_loc):
     A_past, B_past = A_now, B_now
 
 # A가 좀 남았다면
-while len(A_sec_and_loc):
-    A_now = A_sec_and_loc.pop(0)
-
-    if A_now == B_now and A_past != B_past:
-        ans+=1
-
-    A_past = A_now
+ans += A_sec_and_loc.count(B_now)
 # B가 좀 남았다면
-while len(B_sec_and_loc):
-    B_now = B_sec_and_loc.pop(0)
-
-    if A_now == B_now and A_past != B_past:
-        ans+=1
-
-    B_past = B_now
-
+ans += B_sec_and_loc.count(A_now)
 print(ans)
