@@ -1,59 +1,35 @@
-# 입력을 받는다.
-n, m = map(int, input().split())
-
-A_sec_and_loc = [0]
-B_sec_and_loc = [0]
-A_cur_sec = B_cur_sec = 0
-dist = [0]
-ans = 0
-
-# A로봇의 움직임 기록
-for _ in range(n):
-    sec, cmd = input().split()
-    start = end = 0
-
-    if cmd == 'R':
-        start = A_sec_and_loc[-1] + 1
-        end = start + int(sec)
-        A_sec_and_loc += list(range(start, end))
-    else:
-        start = A_sec_and_loc[-1] - 1
-        end = start - int(sec)
-        A_sec_and_loc += list(range(start, end, -1))
+def make_route(move):
+    route = [0]
+    for t, d in move:
+        for i in range(int(t)):
+            if d == 'L':
+                next_pos = route[-1] - 1
+            else:
+                next_pos = route[-1] + 1
+            route.append(next_pos)
+    
+    return route
 
 
-# B로봇의 움직임 기록
-for _ in range(m):
-    sec, cmd = input().split()
-    start = end = 0
+N, M = map(int, input().split())
 
-    if cmd == 'R':
-        start = B_sec_and_loc[-1] + 1
-        end = start + int(sec)
-        B_sec_and_loc += list(range(start, end))
-    else:
-        start = B_sec_and_loc[-1] - 1
-        end = start - int(sec)
-        B_sec_and_loc += list(range(start, end, -1))
+move_a = [tuple(input().split()) for _ in range(N)]
+move_b = [tuple(input().split()) for _ in range(M)]
 
+route_a = make_route(move_a)
+route_b = make_route(move_b)
 
-# pop한다.
-A_past = A_sec_and_loc.pop(0)
-B_past = B_sec_and_loc.pop(0)
-A_now = B_now = 0
-# 두 배열 중 하나가 없어질 때까지 반복
-while len(A_sec_and_loc) and len(B_sec_and_loc):
-    # pop
-    A_now, B_now = A_sec_and_loc.pop(0), B_sec_and_loc.pop(0)
-    # 둘의 거리 차이가 0인가? 이전에는 0이 아니었는가
-    if A_now == B_now and A_past != B_past:
-        # ans += 1을 한다.
-        ans += 1        
-    # 업데이트 한다.
-    A_past, B_past = A_now, B_now
+before_a, before_b, cnt = 0, 0, 0
+for i in range(1, max((len(route_a), len(route_b)))):
+    if i < len(route_a) and i < len(route_b):
+        now_a, now_b = route_a[i], route_b[i]
+    elif i >= len(route_a):
+        now_a, now_b = route_a[-1], route_b[i]
+    elif i >= len(route_b):
+        now_a, now_b = route_a[i], route_b[-1]
 
-# A가 좀 남았다면
-ans += A_sec_and_loc.count(B_now)
-# B가 좀 남았다면
-ans += B_sec_and_loc.count(A_now)
-print(ans)
+    if before_a != before_b and now_a == now_b:
+        cnt += 1
+    before_a, before_b = now_a, now_b
+
+print(cnt)
