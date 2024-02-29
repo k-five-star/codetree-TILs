@@ -1,6 +1,6 @@
 #include <stdio.h>
 #define SIZE (1000*1000)
-int a_pos[SIZE], b_pos[SIZE], gap[SIZE];
+int a_pos[SIZE], b_pos[SIZE];
 
 int main() {
     int n, m, v, t, cur = 0, ans = 0, i;
@@ -27,17 +27,21 @@ int main() {
 
         for(i = cur + 1; i <= cur + t && i < SIZE; i++) { // SIZE를 초과하지 않도록 보호
             b_pos[i] = b_pos[i - 1] + v;
-            gap[i] = a_pos[i] - b_pos[i];
         }
 
         cur = i - 1;
     }
 
-    for(i = 1; i <= cur; i++) {
-        if (gap[i] != 0 && (i == 1 || gap[i] * gap[i - 1] <= 0))
+for (int i = 1; i < cur; ++i) {
+        int gap = a_pos[i] - b_pos[i];
+        
+        if (gap != 0) {
+            if (i == 1 || gap * (a_pos[i-1] - b_pos[i-1]) <= 0) {
+                ans++;
+            }
+        } else if (a_pos[i-1] - b_pos[i-1] != 0) {
             ans++;
-        else if (gap[i] == 0 && gap[i - 1] != 0)
-            ans++;
+        }
     }
 
     printf("%d", ans);
